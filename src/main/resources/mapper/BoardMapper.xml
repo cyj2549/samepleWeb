@@ -487,7 +487,7 @@ AND title LIKE #{title}
 <!-- 			 NOTICE_YN ASC , REGDATE ASC  -->
 <!-- 			 ) WHERE rn BETWEEN (page*countList) -9 AND (page*countList) -1	 -->
 				
-<!-- 	</select> -->
+<!-- 	</select>  변경변경변경 -->
 
 
 
