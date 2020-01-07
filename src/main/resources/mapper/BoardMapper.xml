@@ -30,8 +30,10 @@ SELECT COUNT(*) FROM BBS WHERE DEL_YN NOT IN ('Y')
  					 
  		WHERE 
  			1=1
- 		
- <choose>
+<!--  	switch 를 선언하는 절은 choose 가 되구요.. when 은 case, otherwise는 default -->
+
+
+<choose>
 		<when test='noticeYn== "YN"'>        <!-- (Y 공지글 , N 일반글) -->
  			AND	 NOTICE_YN IN ('Y','N')         
 		</when>
@@ -56,8 +58,8 @@ SELECT COUNT(*) FROM BBS WHERE DEL_YN NOT IN ('Y')
 		</when>
 		
 		<when test="searchType =='all'">                <!-- 제목+작성자 -->
-			OR	title LIKE '%' || #{keyword} || '%' 
-			OR	userNm LIKE '%'|| #{keyword} || '%' 
+			OR	title  LIKE '%' || #{keyword} || '%' 
+			OR	userNm LIKE '%' || #{keyword} || '%' 
 	
 		</when>	
 </choose>		 
@@ -69,12 +71,13 @@ SELECT COUNT(*) FROM BBS WHERE DEL_YN NOT IN ('Y')
 		           page     2    // 현재 페이지 번호        -->
 			 NOTICE_YN ASC , REGDATE ASC 
 			 ) 
-			 WHERE rn BETWEEN ( (#{page}*#{countList}) - (#{countList}-1) ) AND (#{page}*#{countList}) 
+			 WHERE rn BETWEEN ( (#{page}*#{countList}) - (#{countList}-1)) AND (#{page}*#{countList}) 
+			 
 </select>
 
-		<!--	page= 1일때, 1*10-9  and  1*10
-				       rn        1  and 10
-				page= 2일때, 2*10-9  and 2*10             
+		<!--	page= 1일때, 1*10  -(10-1)  and  1*10
+				       rn     1  and 10
+				page= 2일때, 2*10 -(10-1)  and 2*10             
 				       rn    11 and  20
 				        -->    
 

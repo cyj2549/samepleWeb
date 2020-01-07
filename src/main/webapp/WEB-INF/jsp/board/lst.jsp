@@ -1,27 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<!-- jsp문서에서 jstl을 사용하기 위한 선언 방법 -->
 
 <table border="6" summary="게시판 목록">
 	<h2>게시판 목록</h2>
 
 
 
-	<h3>총 게시물 수 ${totalCount}</h3>
+<%-- 	<h3>총 게시물 수 ${totalCount}</h3> --%>
 	<%-- <caption><b>게시판 목록</b></caption> --%>
 	<colgroup>
 		<col width="40px" />
 		<col width="200px" />
 	</colgroup>
 
-
-
-
 	<thead>
 
 		<tr>
-
 			<td>글번호</td>
 			<td>공지사항(Y-공지,N-일반)</td>
 			<td>제목</td>
@@ -29,8 +25,8 @@
 			<td>조회수</td>
 			<td>최초등록날짜</td>
 			<td>ㅡ</td>
-
 		</tr>
+		
 	</thead>
 	<c:choose>
 		<c:when test="${not empty boardLst}">
@@ -40,7 +36,6 @@
 			<c:forEach items="${boardLst}" var="items" varStatus="status">
 
 				<tr>
-
 
 					<td><a href="/board/sel.do?cdKey=${items.cdKey}">${items.rn}</a></td>
 					<td><c:choose>
@@ -58,8 +53,6 @@
 
 					<td><a href="/board/del.do?cdKey= ${items.cdKey }">삭제</a></td>
 				</tr>
-
-
 
 			</c:forEach>
 		</c:when>
@@ -85,7 +78,7 @@
 		<c:url var="action"  value="/board/lst.do" />
 		
 			<c:if test="${param.page}-1">
-				<a href="${action}?page=${param.page}&countList=10">이전페이지</a>
+				<a href="${action}?page=${param.page}-1&countList=10">이전페이지</a>
 			</c:if>
 			
 			<c:forEach begin="1" end="${end}" step="1" var="index">
@@ -97,15 +90,17 @@
 					<c:otherwise>
 						<a href="${action}?page=${index}&countList=10">${index}</a>
 					</c:otherwise>
+					
 			</c:choose>
 			</c:forEach>
 			
 				<c:if test="${param.page}+1">
-				<a href="${action}?page=${param.page+1}&countList=10">다음페이지</a>
+				<a href="${action}?page=${param.page}+1&countList=10">다음페이지</a>
 				</c:if>
 			</div>
-			</td>
+		</td>
 	</tr>
+	
 	<!-- 페이징//////////////////////////////////////  -->
 
 
@@ -127,7 +122,7 @@
 
 
 				<select name="searchType" id="searchType">
-					<option value="0">----선택----</option>
+					<option value="0" >----선택----</option>
 					<option value="title"
 						<c:if test="${param.searchType eq 'title' }">selected </c:if>>제목</option>
 					<option value="userNm"

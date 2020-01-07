@@ -4,31 +4,32 @@ import java.sql.Timestamp;
 
 public class BoardVO {
 
-	private String cdKey ; // 게시물 번호 고유 키
-	private String noticeYn ; // 공지사항 유무(Y - 공지사항, N - 일반 게시물)
-	private String title ; // 게시물 제목
-	private String userNm ; // 작성자명
-	private String detail ; // 게시물 내용
-	private String passwd ; // 게시물 비밀번호
-	private int inquiry ; // 조회수
-	private String delYn ; // 삭제 유무(Y - 삭제)
+	private String cdKey ; 		// 게시물 번호 고유 키
+	private String noticeYn ;   // 공지사항 유무(Y - 공지사항, N - 일반 게시물)
+	private String title ;    // 게시물 제목
+	private String userNm ;   // 작성자명
+	private String detail ;   // 게시물 내용
+	private String passwd ;   // 게시물 비밀번호
+	private int inquiry ; 	  // 조회수
+	private String delYn ;    // 삭제 유무(Y - 삭제)
 	private Timestamp upddate ; // 최종수정날짜
 	private Timestamp regdate ; // 최초등록날짜
 
 	private String searchType ; // 검색필드:작성자,제목
-	private String keyword  ; // 검색 키워드
+	private String keyword  ;   // 검색 키워드
 
-		
-    
-    private int totalCount =0; // 게시 글 전체 수
+		   
+    private int totalCount = 0;   // 게시 글 전체 수
     private int countList = 10 ;  // 한 화면에 출력될 게시물 수  10
     private int page;  // 현재 페이지 번호  5
     
     private int rn ;
     
-//    private int countPage  =10 ;  // 한 화면에 출력될 페이지 수  10    
+//    private int countPage  =10 ;  // 한 화면에 출력될 페이지 수  10 
+    
 //    private int startPage; // 시작 페이지   1     
 //    private int endPage;   // 마지막 페이지  10  
+
     
 	// startPage = ((page - 1) / 10) * 10 + 1;
     // endPage = startPage + countPage - 1;
@@ -67,8 +68,6 @@ public class BoardVO {
 	public void setPage(int page) {
 		this.page = page;
 	}
-
-
 
 
 	public String getSearchType() {
