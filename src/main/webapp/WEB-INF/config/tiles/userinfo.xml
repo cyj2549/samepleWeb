@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+     "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+     "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+
+	<definition name="userinfo.lst" extends="default">
+		<put-attribute name="body" 	value="/WEB-INF/jsp/userinfo/lst.jsp" />
+	</definition>
+
+	<definition name="userinfo.sel" extends="default">
+		<put-attribute name="body" 	value="/WEB-INF/jsp/userinfo/sel.jsp" />
+	</definition>
+
+	<definition name="userinfo.ins" extends="default">
+		<put-attribute name="body" 	value="/WEB-INF/jsp/userinfo/ins.jsp" />
+	</definition>
+
+	<definition name="userinfo.upd" extends="default">
+		<put-attribute name="body" 	value="/WEB-INF/jsp/userinfo/upd.jsp" />
+	</definition>
+
+</tiles-definitions>

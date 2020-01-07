@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+     "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+     "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+	<definition name="memo.lst" extends="default">
+		<put-attribute name="body" 	value="/WEB-INF/jsp/memo/lst.jsp" />
+	</definition>
+
+	<definition name="memo.sel" extends="default">
+		<put-attribute name="body" 	value="/WEB-INF/jsp/memo/sel.jsp" />
+	</definition>
+
+	<definition name="memo.ins" extends="default">
+		<put-attribute name="body" 	value="/WEB-INF/jsp/memo/ins.jsp" />
+	</definition>
+
+	<definition name="memo.upd" extends="default">
+		<put-attribute name="body" 	value="/WEB-INF/jsp/memo/upd.jsp" />
+	</definition>
+
+</tiles-definitions>

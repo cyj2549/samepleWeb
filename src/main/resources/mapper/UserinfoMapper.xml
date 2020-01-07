@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iinnoinc.userinfo.dao.UserinfoDAO">
+
+	<select id="userinfoLst" parameterType="com.iinnoinc.userinfo.vo.UserinfoVO" resultType="com.iinnoinc.userinfo.vo.UserinfoVO">
+		SELECT 
+			num   			as   num			,
+			writeDay        as   writeDay		,
+			userID          as   userID			,
+			userName     	as   userName		,
+			pwd       		as   pwd			,
+			title           as   title			,
+			content   		as   content		,
+			readcount       as   readcount		,
+			boardList       as   boardList
+			
+		FROM
+			userinfo
+		ORDER BY
+			num ASC		 
+	</select>	
+
+		<select id="userinfoSel" parameterType="com.iinnoinc.userinfo.vo.UserinfoVO" resultType="com.iinnoinc.userinfo.vo.UserinfoVO">
+		
+		SELECT 
+			num       		 as 	num 		,
+			writeDay     	 as     writeDay		,
+			userID           as   	userID			,
+			userName	  	 as 	userName 		,
+			
+            pwd  			 as     pwd			,
+            
+            title            as   	title			,
+			content 	 	 as 	content		,
+			readcount  		 as 	readcount 		,
+			boardList 	     as 	boardList			
+	    FROM 
+			userinfo			
+		WHERE			
+			num	=	#{num}
+		
+	</select>
+
+
+
+
+	<insert id="userinfoIns" parameterType="com.iinnoinc.userinfo.vo.UserinfoVO">
+	
+	INSERT INTO userinfo 
+	(
+			num					,
+			writeDay			,
+			userID				,
+			userName			,
+			pwd					,
+			title				,
+			content				,
+			readcount			,		
+		 	boardList
+		 )
+ 	VALUES 
+ 	(
+	   		SEQ_CD_KEY.NEXT_VAL 	,  
+			SYS_TIMESTAMP			,
+			#{userID} 				,
+			#{userName}				,		
+			#{pwd}					, 
+			#{title}				,
+			#{content}				,
+			#{readcount}			,
+			#{boardList}
+	)
+	
+	</insert>		
+<!-- 		INSERT INTO -->
+<!-- 			userinfo( -->
+<!--  			num    오토 인크리먼트 --> 
+<!-- 				writeDay			, -->
+<!-- 				userID				, -->
+<!-- 				userName			, -->
+<!-- 				pwd					, -->
+<!-- 				title				, -->
+<!-- 				content				, -->
+<!-- 				readcount			, -->
+<!-- 				boardList -->
+				
+<!-- 			) -->
+<!-- 		VALUES(				 -->
+		
+<!--             SYS_TIMESTAMP			, -->
+<!-- 			#{userID}				, -->
+<!-- 			#{userName}				, -->
+<!-- 			#{pwd}					, -->
+<!-- 			#{title}				, -->
+<!-- 			#{content}				, -->
+<!-- 			#{readcount}			, -->
+<!-- 			#{boardList}			 -->
+<!-- 		) -->
+
+	
+	
+	<update id="userinfoUpd" parameterType="com.iinnoinc.userinfo.vo.UserinfoVO">
+		UPDATE
+			userinfo
+		SET
+		    
+			title		= 	#{title}	,
+			content		= 	#{content}
+		WHERE
+			num			= 	#{num}
+		
+			
+			
+			
+	</update>
+	
+	
+	<!-- 게시글 삭제 -->
+<delete id="userinfoDel" parameterType="com.iinnoinc.userinfo.vo.UserinfoVO"  >
+<!-- 	DELETE FROM userinfo WHERE num = #{num} -->
+	
+	
+	update userinfo set num = num - 1 where num >= ${num}
+	
+</delete>	
+		
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

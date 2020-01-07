@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iinnoinc.memo.dao.MemoDAO">
+
+	<select id="memoLst" parameterType="com.iinnoinc.memo.vo.MemoVO" resultType="com.iinnoinc.memo.vo.MemoVO">
+		SELECT
+			CODE_KEY	as	codeKey	,
+			TITLE		as	title	,
+			MEMO		as	memo	,
+			REGDATE		as	regdate
+		FROM
+			MEMO
+		ORDER BY
+			REGDATE DESC
+	</select>
+
+	<select id="memoSel" parameterType="com.iinnoinc.memo.vo.MemoVO" resultType="com.iinnoinc.memo.vo.MemoVO">
+		SELECT
+			CODE_KEY	as	codeKey	,
+			TITLE		as	title	,
+			MEMO		as	memo	,
+			REGDATE		as	regdate
+		FROM
+			MEMO
+		WHERE
+			CODE_KEY	=	#{codeKey}
+	</select>
+
+
+
+	<insert id="memoIns" parameterType="com.iinnoinc.memo.vo.MemoVO">
+		INSERT INTO
+			MEMO(
+				CODE_KEY		,
+				TITLE			,
+				MEMO			,
+				REGDATE
+			)
+		VALUES(
+			SEQ_CODE.NEXTVAL	,
+			#{title}			,
+			#{memo}				,
+			SYS_TIMESTAMP
+		)
+	</insert>
+
+	<update id="memoUpd" parameterType="com.iinnoinc.memo.vo.MemoVO">
+		UPDATE
+			MEMO
+		SET
+			TITLE		= #{title}	,
+			MEMO		= #{memo}
+		WHERE
+			CODE_KEY	= #{codeKey}
+	</update>
+
+	<delete id="memoDel" parameterType="com.iinnoinc.memo.vo.MemoVO">
+		DELETE FROM
+			MEMO
+		WHERE
+			CODE_KEY	= #{codeKey}
+	</delete>
+
+</mapper>

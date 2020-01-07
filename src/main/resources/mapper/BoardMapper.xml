@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iinnoinc.board.dao.BoardDAO">
+
+<select id="totalCount" resultType="int">
+SELECT COUNT(*) FROM BBS WHERE DEL_YN NOT IN ('Y') 
+</select>
+
+
+<select id="boardLst" parameterType="com.iinnoinc.board.vo.BoardVO" resultType="com.iinnoinc.board.vo.BoardVO">
+ 
+ SELECT * FROM (
+		SELECT 
+
+			ROWNUM          as      rn          ,
+<!-- 		COUNT(*)        as      totalCount  , -->
+   			CD_KEY			as		cdKey		,    <!--  	게시물 번호 고유 키 	-->
+			NOTICE_YN		as		noticeYn	,	 <!--	공지사항(Y - 공지사항, N - 일반 게시물) -->
+ 			TITLE			as		title		,    <!--	게시물 제목	 -->
+			USERNM			as		userNm 		,    <!--	작성자 	-->
+ 			DETAIL			as		detail		,	 <!--	게시물 내용 	-->
+ 			PASSWD			as		passwd		,	 <!--	게시물 비밀번호	 -->
+			
+ 			INQUIRY			as		inquiry		,	 <!--	조회수 	-->
+			DEL_YN			as		delYn		,	 <!--	삭제 유무(Y - 삭제)  -->
+ 			UPDDATE			as		upddate		,	 <!--	최종수정날짜 		-->
+ 			REGDATE			as		regdate          <!--	최초등록날짜 		-->
+ 		FROM 
+ 			BBS      
+ 					 
+ 		WHERE 
+ 			1=1
+ 		
+ <choose>
+		<when test='noticeYn== "YN"'>        <!-- (Y 공지글 , N 일반글) -->
+ 			AND	 NOTICE_YN IN ('Y','N')         
+		</when>
+		
+		<when test='noticeYn== "Y"'>
+			AND NOTICE_YN LIKE 'Y' 
+		</when>
+		
+		<when test='noticeYn== "N"'>
+ 			AND NOTICE_YN LIKE 'N' 
+		</when>
+
+		</choose>
+ 		
+<choose>
+		<when test= "searchType== 'title' "> 
+			AND	 title LIKE  '%' || #{keyword} || '%' 
+		</when>
+	
+		<when test= "searchType== 'userNm' "> 
+			AND	 userNm LIKE  '%' || #{keyword} || '%'	
+		</when>
+		
+		<when test="searchType =='all'">                <!-- 제목+작성자 -->
+			OR	title LIKE '%' || #{keyword} || '%' 
+			OR	userNm LIKE '%'|| #{keyword} || '%' 
+	
+		</when>	
+</choose>		 
+
+			AND		DEL_YN NOT IN('Y')  
+		ORDER BY	    
+		      <!-- totalCount   // 게시 글 전체 수  
+		           countList   10 // 한 화면에 출력될 게시물 수
+		           page     2    // 현재 페이지 번호        -->
+			 NOTICE_YN ASC , REGDATE ASC 
+			 ) 
+			 WHERE rn BETWEEN ( (#{page}*#{countList}) - (#{countList}-1) ) AND (#{page}*#{countList}) 
+</select>
+
+		<!--	page= 1일때, 1*10-9  and  1*10
+				       rn        1  and 10
+				page= 2일때, 2*10-9  and 2*10             
+				       rn    11 and  20
+				        -->    
+
+	
+
+<!-- 		SELECT  -->
+
+<!-- 			ROWNUM          as      rums        , -->
+<!-- 			COUNT(*)        as      totalCount  , -->
+<!--    		CD_KEY			as		cdKey		,     	게시물 번호 고유 키 	 -->
+<!-- 			NOTICE_YN		as		noticeYn	,	 	공지사항(Y - 공지사항, N - 일반 게시물) -->
+<!--  			TITLE			as		title		,    	게시물 제목	 -->
+<!-- 			USERNM			as		userNm 		,    	작성자 	 -->
+<!--  			DETAIL			as		detail		,	 	게시물 내용 	 -->
+<!--  			PASSWD			as		passwd		,	 	게시물 비밀번호	 -->
+			
+<!--  			INQUIRY			as		inquiry		,	 	조회수 	 -->
+<!-- 			DEL_YN			as		delYn		,	 	삭제 유무(Y - 삭제)  -->
+<!--  			UPDDATE			as		upddate		,	 	최종수정날짜 		 -->
+<!--  			REGDATE			as		regdate          	최초등록날짜 		 -->
+<!--  		FROM  -->
+<!--  			BBS       -->
+ 			 
+<!--  		WHERE  -->
+<!--  			1=1 -->
+ 		
+<!--  <choose> -->
+<!-- 		<when test='noticeYn== "YN"'>        (Y 공지글 , N 일반글) -->
+<!--  			AND	 NOTICE_YN IN ('Y','N')          -->
+<!-- 		</when> -->
+		
+<!-- 		<when test='noticeYn== "Y"'> -->
+<!-- 			AND NOTICE_YN LIKE 'Y'  -->
+<!-- 		</when> -->
+		
+<!-- 		<when test='noticeYn== "N"'> -->
+<!--  			AND NOTICE_YN LIKE 'N'  -->
+<!-- 		</when> -->
+
+<!-- 		</choose> -->
+ 		
+<!-- <choose> -->
+<!-- 		<when test= "searchType== 'title' ">  -->
+<!-- 			AND	 title LIKE  '%' || #{keyword} || '%'  -->
+<!-- 		</when> -->
+	
+<!-- 		<when test= "searchType== 'userNm' ">  -->
+<!-- 			AND	 userNm LIKE  '%' || #{keyword} || '%'	 -->
+<!-- 		</when> -->
+		
+<!-- 		<when test="searchType =='all'">                제목+작성자 -->
+<!-- 			OR	title LIKE '%' ||#{keyword} ||'%'  -->
+<!-- 			OR	userNm LIKE '%'|| #{keyword}|| '%'  -->
+	
+<!-- 		</when>	 -->
+<!-- </choose>		  -->
+
+<!-- 			AND		DEL_YN NOT IN('Y') -->
+			
+<!-- 		GROUP BY  		 -->
+				
+<!-- 			CD_KEY		,	 -->
+<!-- 			NOTICE_YN	,	 -->
+<!--  			TITLE		,	 -->
+<!-- 			USERNM		,	 -->
+<!--  			DETAIL		,	 -->
+<!--  			PASSWD		,	 -->
+			
+<!--  			INQUIRY			, -->
+<!-- 			DEL_YN			, -->
+<!--  			UPDDATE			, -->
+<!--  			REGDATE			 -->
+			
+<!-- 		ORDER BY	 -->
+<!-- 			 NOTICE_YN ASC , REGDATE ASC 	 -->
+	
+<!-- 	SELECT  -->
+<!--    ROWNUM          as      rums,  -->
+<!--    A.*  -->
+<!-- FROM  -->
+<!-- ( -->
+<!-- SELECT  -->
+
+<!--          COUNT(*) AS cnt, B.* -->
+<!--        from ( -->
+<!--        SELECT -->
+<!--             CD_KEY         as      cdKey      ,     -->
+<!--          NOTICE_YN      as      noticeYn   ,     -->
+<!--          TITLE         as      title      ,     -->
+<!--          USERNM         as      userNm       ,     -->
+<!--          DETAIL         as      detail      ,     -->
+<!--          PASSWD         as      passwd      ,     -->
+         
+<!--          INQUIRY         as      inquiry      ,     -->
+<!--          DEL_YN         as      delYn      ,     -->
+<!--          UPDDATE         as      upddate      ,     -->
+<!--          REGDATE         as      regdate           -->
+<!--       FROM  -->
+<!--          BBS       -->
+           
+<!--       WHERE  -->
+<!--          1=1   -->
+<!--          AND      DEL_YN NOT IN('Y') -->
+         
+<!--       GROUP BY         -->
+   
+            
+<!--          CD_KEY      ,    -->
+<!--          NOTICE_YN   ,    -->
+<!--           TITLE      ,    -->
+<!--          USERNM      ,    -->
+<!--           DETAIL      ,    -->
+<!--           PASSWD      ,    -->
+         
+<!--           INQUIRY         , -->
+<!--          DEL_YN         , -->
+<!--           UPDDATE         , -->
+<!--           REGDATE          -->
+   
+         
+<!--       ORDER BY    -->
+<!--           NOTICE_YN ASC , REGDATE ASC -->
+<!--       ) B -->
+<!-- ) A -->
+<!--       ; -->
+<!--       SELECT  -->
+
+<!--          ROWNUM          as      rums        , -->
+<!--          (SELECT COUNT(*) FROM BBS)        as      totalCount  , -->
+<!--             CD_KEY         as      cdKey      ,     -->
+<!--          NOTICE_YN      as      noticeYn   ,     -->
+<!--           TITLE         as      title      ,     -->
+<!--          USERNM         as      userNm       ,     -->
+<!--           DETAIL         as      detail      ,     -->
+<!--           PASSWD         as      passwd      ,     -->
+         
+<!--           INQUIRY         as      inquiry      ,     -->
+<!--          DEL_YN         as      delYn      ,     -->
+<!--           UPDDATE         as      upddate      ,     -->
+<!--           REGDATE         as      regdate           -->
+<!--        FROM  -->
+<!--           BBS       -->
+           
+<!--        WHERE  -->
+<!--           1=1  -->
+ 
+<!--          AND      DEL_YN NOT IN('Y') -->
+
+<!--       ORDER BY    -->
+<!--           NOTICE_YN ASC , REGDATE ASC -->
+          
+<!--			
+	<choose>
+	<when test= "searchType== 'title' "> 
+		AND title LIKE  '%' || #{keyword} || '%'
+	</when>
+	<when test= "searchType== 'userNm' "> 
+		AND userNm LIKE  '%' || #{keyword} || '%'
+	</when>
+	
+	</choose>	
+-->
+
+		
+<!--
+	 <sql id= "search">
+	<choose>
+	<when test= "searchType== 'title' "> 
+		AND title LIKE  '%' || #{keyword} || '%'
+	</when>
+	<when test= "searchType== 'userNm' "> 
+		AND userNm LIKE  '%' || #{keyword} || '%'
+	</when>
+	
+	</choose>	
+		</sql>
+-->
+	
+	
+<!-- 		<sql id="search"> -->
+<!-- 		<if test="searchType != null"> -->
+<!-- 			<if test="searchType == 'title'.toString()"> -->
+<!-- 				and title like '%' || #{keyword} || '%' -->
+<!-- 			</if> -->
+
+<!-- 			<if test="searchType == 'userNm'.toString()"> -->
+<!-- 				and userNm like '%' || #{keyword} || '%' -->
+<!-- 			</if>			 -->
+<!-- 		</if> -->
+<!-- 	</sql>	 -->
+
+
+	
+	
+		
+	
+<!--   111111111111111111111111111111
+<choose>
+<when test = "searchType != null ">
+AND title LIKE #{title}
+</when>
+
+</choose>		
+		
+	-->	
+<!--   222222222222222222222222222222222222222
+ <sql id= "search">
+	<choose>
+	<when test= "searchType== 'title' "> 
+		AND title LIKE CONCAT('%', #{keyword},'%' )
+	</when>
+	<when test= "searchType== 'userNm' "> 
+		AND userNm LIKE CONCAT('%', #{keyword},'%' )
+	</when>
+	
+	</choose>	
+		</sql>	 
+-->
+		
+<!--    333333333333333333333333333333333333333333
+<sql id ="search">
+<if test ="searchType !=null">
+<if test="searchType== 'title'.toString()"> AND TITLE LIKE '%' || #{keyword} || '%'</if>
+<if test="searchType =='userNm'.toString()">AND USERNM LIKE '%' || #{keyword} || '%'</if>
+
+</if>
+</sql>
+	-->
+			
+
+<update id="boardRegdate" parameterType="com.iinnoinc.board.vo.BoardVO">
+	
+	UPDATE 
+       	BBS
+   	SET 
+       	INQUIRY = inquiry +1
+  	WHERE 
+		CD_KEY	= 	#{cdKey}	
+</update>		
+
+<insert id="boardIns" parameterType="com.iinnoinc.board.vo.BoardVO">
+	
+	INSERT INTO 
+	BBS (
+			
+			CD_KEY					,
+			NOTICE_YN				,
+			TITLE					,			
+			USERNM					,
+			
+			DETAIL					,			
+			PASSWD					,	
+					
+			INQUIRY					,
+			DEL_YN					,		
+		 	UPDDATE   				,
+		 	REGDATE
+		 )
+ 	VALUES 
+ 	( 		
+	   		SEQ_CD_KEY.NEXT_VALUE 					,  			
+			#{noticeYn} 							,
+			#{title}								,		
+			#{userNm}								, 
+							
+			#{detail}								,
+			#{passwd}								,
+			
+			0										,
+			#{delYn}								,
+			SYS_TIMESTAMP							,
+			SYS_TIMESTAMP
+	)
+	
+	</insert>	
+	
+	
+<select id="boardSel" parameterType="com.iinnoinc.board.vo.BoardVO" resultType="com.iinnoinc.board.vo.BoardVO">
+<!-- 		상세보기 -->
+		SELECT
+ 				
+				CD_KEY			as		cdKey       ,
+				TITLE			as		title		,	<!-- 게시물 제목 -->
+				USERNM			as		userNm 		,	<!-- 작성자 -->
+				DETAIL			as		detail		,	<!-- 게시물 내용 -->
+				PASSWD			as		passwd		,	<!-- 게시물 비밀번호 -->
+			
+				INQUIRY			as		inquiry			<!-- 조회수 -->			
+				
+		FROM
+				BBS
+		WHERE			
+				CD_KEY	=	#{cdKey}
+		
+	</select>
+
+	<update id="boardUpd" parameterType="com.iinnoinc.board.vo.BoardVO">
+		UPDATE
+			BBS
+		SET		    
+			TITLE		= 	#{title}	,
+			DETAIL		= 	#{detail}   ,
+			UPDDATE		=	sys_timestamp
+		WHERE
+			CD_KEY			= 	#{cdKey}			
+			
+	</update>
+	
+
+
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <select id="boardLst" parameterType="com.iinnoinc.board.vo.BoardVO" resultType="com.iinnoinc.board.vo.BoardVO"> -->
+ 
+<!--  SELECT * FROM ( -->
+<!-- 		SELECT  -->
+
+<!-- 			ROWNUM          as      rn          , -->
+<!-- 			COUNT(*)        as      totalCount  , --> 
+<!--    			CD_KEY			as		cdKey		,     	게시물 번호 고유 키 	 -->
+<!-- 			NOTICE_YN		as		noticeYn	,	 	공지사항(Y - 공지사항, N - 일반 게시물) -->
+<!--  			TITLE			as		title		,    	게시물 제목	 -->
+<!-- 			USERNM			as		userNm 		,    	작성자 	 -->
+<!--  			DETAIL			as		detail		,	 	게시물 내용 	 -->
+<!--  			PASSWD			as		passwd		,	 	게시물 비밀번호	 -->
+			
+<!--  			INQUIRY			as		inquiry		,	 	조회수 	 -->
+<!-- 			DEL_YN			as		delYn		,	 	삭제 유무(Y - 삭제)  -->
+<!--  			UPDDATE			as		upddate		,	 	최종수정날짜 		 -->
+<!--  			REGDATE			as		regdate          	최초등록날짜 		 -->
+<!--  		FROM  -->
+<!--  			BBS       -->
+ 					 
+<!--  		WHERE  -->
+<!--  			1=1 -->
+ 		
+<!--  <choose> -->
+<!-- 		<when test='noticeYn== "YN"'>        (Y 공지글 , N 일반글) -->
+<!--  			AND	 NOTICE_YN IN ('Y','N')          -->
+<!-- 		</when> -->
+		
+<!-- 		<when test='noticeYn== "Y"'> -->
+<!-- 			AND NOTICE_YN LIKE 'Y'  -->
+<!-- 		</when> -->
+		
+<!-- 		<when test='noticeYn== "N"'> -->
+<!--  			AND NOTICE_YN LIKE 'N'  -->
+<!-- 		</when> -->
+
+<!-- 		</choose> -->
+ 		
+<!-- <choose> -->
+<!-- 		<when test= "searchType== 'title' ">  -->
+<!-- 			AND	 title LIKE  '%' || #{keyword} || '%'  -->
+<!-- 		</when> -->
+	
+<!-- 		<when test= "searchType== 'userNm' ">  -->
+<!-- 			AND	 userNm LIKE  '%' || #{keyword} || '%'	 -->
+<!-- 		</when> -->
+		
+<!-- 		<when test="searchType =='all'">                제목+작성자 -->
+<!-- 			OR	title LIKE '%' ||#{keyword} ||'%'  -->
+<!-- 			OR	userNm LIKE '%'|| #{keyword}|| '%'  -->
+	
+<!-- 		</when>	 -->
+<!-- </choose>		  -->
+
+<!-- 			AND		DEL_YN NOT IN('Y') -->
+			
+			
+<!-- 		GROUP BY  		 --> 
+				
+<!--		CD_KEY		,	 -->
+<!--  			NOTICE_YN	,	 --> 
+<!--   			TITLE		,	 --> 
+<!--  			USERNM		,	 -->
+<!--   			DETAIL		,	 --> 
+<!--  			PASSWD		,	 --> 
+			
+<!--   			INQUIRY			, --> 
+<!--  			DEL_YN			, --> 
+<!--  			UPDDATE			, --> 
+<!--   			REGDATE			 --> 
+	  
+<!-- 		ORDER BY	 -->
+<!-- 			 NOTICE_YN ASC , REGDATE ASC  -->
+<!-- 			 ) WHERE rn BETWEEN (page*countList) -9 AND (page*countList) -1	 -->
+				
+<!-- 	</select> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

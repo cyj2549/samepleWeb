@@ -1,0 +1,22 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: core.log.jdbc.driver.CUBRIDDriver
+    url: jdbc:cubrid:localhost:33000:CYJPRO:::?charset=UTF-8
+    username: dba
+    password: rhfi456
+    type: org.apache.commons.dbcp2.BasicDataSource
+    dbcp2:
+      test-on-borrow: false
+      pool-prepared-statements: true
+      validation-query: SELECT 1 
+
+mybatis:
+  configuration:
+    jdbc-type-for-null: NULL
+  mapper-locations:
+  - classpath*:mapper/**/*.xml
+
+server:
+  port: 80  
