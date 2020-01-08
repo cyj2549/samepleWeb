@@ -69,12 +69,16 @@ SELECT COUNT(*) FROM BBS WHERE DEL_YN NOT IN ('Y')
 		      <!-- totalCount   // 게시 글 전체 수  
 		           countList   10 // 한 화면에 출력될 게시물 수
 		           page     2    // 현재 페이지 번호        -->
-			 NOTICE_YN ASC , REGDATE ASC 
+			  REGDATE ASC 
 			 ) 
-			 WHERE rn BETWEEN ( (#{page}*#{countList}) - (#{countList}-1)) AND (#{page}*#{countList}) 
+			 WHERE rn BETWEEN #{startPage} AND #{endPage}
+<!-- 			 WHERE rn BETWEEN ( (#{page}*#{countList}) - (#{countList}-1)) AND (#{page}*#{countList})  -->
+	</select>		 
 			 
-</select>
+			 
+<!-- 			 WHERE rn BETWEEN #{starPage} AND #{endPage} -->
 
+       <!--page 1일때, --> 
 		<!--	page= 1일때, 1*10  -(10-1)  and  1*10
 				       rn     1  and 10
 				page= 2일때, 2*10 -(10-1)  and 2*10             

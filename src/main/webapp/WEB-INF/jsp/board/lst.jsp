@@ -8,7 +8,7 @@
 
 
 
-<%-- 	<h3>총 게시물 수 ${totalCount}</h3> --%>
+	<h3>총 게시물 수 ${totalCount}</h3>
 	<%-- <caption><b>게시판 목록</b></caption> --%>
 	<colgroup>
 		<col width="40px" />
@@ -78,7 +78,7 @@
 		<c:url var="action"  value="/board/lst.do" />
 		
 			<c:if test="${param.page}-1">
-				<a href="${action}?page=${param.page}-1&countList=10">이전페이지</a>
+				<a href="${action}?page=${param.page}-1&countList=5">[이전페이지]</a>
 			</c:if>
 			
 			<c:forEach begin="1" end="${end}" step="1" var="index">
@@ -88,14 +88,14 @@
        				 </c:when>
        				 
 					<c:otherwise>
-						<a href="${action}?page=${index}&countList=10">${index}</a>
+						<a href="${action}?page=${index}&countList=5">${index}</a>
 					</c:otherwise>
 					
 			</c:choose>
 			</c:forEach>
 			
 				<c:if test="${param.page}+1">
-				<a href="${action}?page=${param.page}+1&countList=10">다음페이지</a>
+				<a href="${action}?page=${param.page}+1&countList=5">[다음페이지]</a>
 				</c:if>
 			</div>
 		</td>
@@ -138,15 +138,19 @@
 
 		<form name="search2" action="/board/lst.do" method="get">
 
-			<input type="radio" name="noticeYn" value="YN"
-				<c:if test="${param.search eq 'YN'}">checked</c:if> />공지+일반글 <input
-				type="radio" name="noticeYn" value="Y"
-				<c:if test="${ param.search eq 'Y'}">checked</c:if> />공지글 <input
-				type="radio" name="noticeYn" value="N"
-				<c:if test="${ param.search eq 'N'}">checked</c:if> />일반글 <input
-				type="submit" value="조회" /><br>
+			    <input type="radio" name="noticeYn" value="YN">			
+				<c:if test="${param.search eq 'YN'}">checked</c:if> 공지+일반글 
+				
+				<input type="radio" name="noticeYn" value="Y" >				
+				<c:if test="${ param.search eq 'Y'}">checked</c:if> 공지글
+				
+				<input type="radio" name="noticeYn" value="N">
+				<c:if test="${ param.search eq 'N'}">checked</c:if> 일반글
+				 <input type="submit" value="조회" /><br>
 			<br>
 		</form>
+		
+		
 	</table>
 	<br>
 </tr>

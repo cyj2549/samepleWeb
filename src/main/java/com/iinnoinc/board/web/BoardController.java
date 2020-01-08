@@ -27,12 +27,17 @@ public class BoardController {
 		_model.addAttribute("totalCount",totalCount);
 		
 		
+		
+	//	_model.addAttribute ("totalcountPage" ,(int)Math.ceil((double)totalCount/_boardVO.getCountList()));
+	
 		_model.addAttribute("end", Math.ceil((double)totalCount / _boardVO.getCountList()));
 		
 		System.out.println("===============end=============");
 		System.out.println(Math.ceil( totalCount / _boardVO.getCountList()));
 		System.out.println(Math.ceil( (double)totalCount / _boardVO.getCountList()));
 		//Math.ceil 올림 함수
+		
+		
 		
 		List<BoardVO> boardLst = boardService.boardLst(_boardVO);
 		_model.addAttribute("boardLst", boardLst);
@@ -139,6 +144,7 @@ public class BoardController {
 		if (_boardVO.getDetail().equals("")) {
 			_boardVO.setDetail(null);
 		}
+		
 		// string null 값으로 들어오지 않아서 db에서 validation check 불가
 		// string null 값으로 들어왔을 경우 db validation 처리를 위해 set 인스턴트 메서드를 사용하여 강제 null 셋팅
 		boardService.boardIns(_boardVO);
