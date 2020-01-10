@@ -18,22 +18,45 @@ public class BoardVO {
 	private String searchType ; // 검색필드:작성자,제목
 	private String keyword  ;   // 검색 키워드
 		   
-    private int totalCount = 0;   // 게시 글 전체 수
-    private int countList =5;  // 한 화면에 출력될 게시물 수  10
-    private int page=1;  // 현재 페이지 번호  5
+    private int totalCount ;   // 게시 글 전체 수
+    private int countList = 5;  // 한 화면에 출력될 게시물 수 
+    private int page =1 ;  // 현재 페이지 번호  5
     
     private int rn ;    // rownum
     
     private int countPage  =5 ;  // 한 화면에 출력될 페이지 수  10 
        
-      
-    // private int startPage ; // 시작 페이지   
-    // private int endPage  ;   // 마지막 페이지   
+     
+    private boolean prev=false;//이전 페이지 화살표
+    private boolean next;//다음 페이지 화살표
     
-    public int getStartPage() {
+    
+    public boolean isPrev() {
+		return prev;
+	}
+
+	public void setPrev(boolean prev) {
+		this.prev = prev;
+	}
+
+	public boolean isNext() {
+		return next;
+	}
+
+	public void setNext(boolean next) {
+		this.next = next;
+	}
+	
+	// private int startPage ; // 시작 페이지   
+    // private int endPage  ;   // 마지막 페이지   
+	
+	
+	public int getStartPage() {
     // ((현재페이지-1)/한 화면에 출력될 게시물 수) *(한 화면에 출력될 게시물 수)+1
     // startPage=  (3-1) / 5 * 5+1             
-		return ((int)(page-1) /countList) * countList+1 ;
+    	
+	//	return ((int)(page-1) /countList) * countList+1 ;
+    	return ((int)(page-1) ) * countList +1;
 	}
 	
 	public int getEndPage() {	

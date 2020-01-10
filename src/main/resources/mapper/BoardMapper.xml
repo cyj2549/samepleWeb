@@ -58,7 +58,7 @@ SELECT COUNT(*) FROM BBS WHERE DEL_YN NOT IN ('Y')
 		</when>
 		
 		<when test="searchType =='all'">                <!-- 제목+작성자 -->
-			OR	title  LIKE '%' || #{keyword} || '%' 
+			AND	title  LIKE '%' || #{keyword} || '%' 
 			OR	userNm LIKE '%' || #{keyword} || '%' 
 	
 		</when>	
@@ -71,8 +71,10 @@ SELECT COUNT(*) FROM BBS WHERE DEL_YN NOT IN ('Y')
 		           page     2    // 현재 페이지 번호        -->
 			  REGDATE ASC 
 			 ) 
-			 WHERE rn BETWEEN #{startPage} AND #{endPage}
-<!-- 			 WHERE rn BETWEEN ( (#{page}*#{countList}) - (#{countList}-1)) AND (#{page}*#{countList})  -->
+			 
+			 
+		 WHERE rn BETWEEN #{startPage} AND #{endPage}
+<!-- 	 WHERE rn BETWEEN ( (#{page}*#{countList}) - (#{countList}-1)) AND (#{page}*#{countList})  -->
 	</select>		 
 			 
 			 
@@ -84,6 +86,49 @@ SELECT COUNT(*) FROM BBS WHERE DEL_YN NOT IN ('Y')
 				page= 2일때, 2*10 -(10-1)  and 2*10             
 				       rn    11 and  20
 				        -->    
+
+
+<!--
+
+
+1.사용자 요청, 목록 lst ->
+2. HandlerMapping (클라이언트의 요청 url을 어떤 컨트롤러가 처리할지를 결정)
+-url과 매핑되는 boardCountroller.java 검색
+@GetMapping을 통하여 요청을 처리할 메서드에 도달
+   @getmapping("/board/lst.do") 로 목록을 불러옴
+
+3.service:interface 요청에 필요한 작업 부분
+
+컨트롤러는  해당메서드를 실행하고 service에 요청을 한다
+데이터베이스에 접근이 필요하면 BoardVO를 주입받아 DB처리는 VO에 위임
+4.dao는 mybatis 설정을 이용해서 sql 쿼리를 날려 DB의 정보를 받아 서비스에 다시 돌려줌.
+dao-데이터베이스에 접속해서 비지니스 로직 실행에 필요한 쿼리를 호출
+VO(dto)를 컨트롤러에서 부터 내려받아 쿼리의 결과를 VO에 담는다. (mybatis의 resultType)
+
+5.모든 로직을 끝낸 서비스가 결과를 컨트롤러에서 넘긴다.
+
+
+8결과를 받은 컨트롤러는 Model객체에 결과물 어떤 (view)jsp 파일을 보여줄 것 인지 등의 정보를 담아
+
+
+
+1. 처음 서버가 실행되면, web.xml이라는 파일을 읽어 각종 설정을 적용시킨다. 
+ web.xml에서는 디스패처 서블릿 설정, 초기 파라미터 설정, 초기 페이지 설정, 인코딩 설정 등등을 설정하는 곳이다.
+2. 컨트롤러로 가기전에 디스패처 서블릿으로 간다. 
+디스패처 서블릿은 클라이언트의 요청(URL)이 컨트롤러로 가기전에 가로채 핸들링 한다.
+3. 컨트롤러로 간다.
+4. 서비스로 간다.
+5. DAO로 간다
+6. MyBatis Mapper로 간다.
+7. DataBase로 간다.
+8. 다시 반대로 역주행
+9. 컨트롤러에서 view로 간다.
+
+
+-->    
+
+
+
 
 	
 

@@ -77,26 +77,39 @@
 		<!-- var 사용할 변수 -->
 		<c:url var="action"  value="/board/lst.do" />
 		
-			<c:if test="${param.page}-1">
-				<a href="${action}?page=${param.page}-1&countList=5">[이전페이지]</a>
+	                           
+			<c:if test="${param.page ne page }">
+				<a href="${action}?page=1&countList=5">[처음]</a>
 			</c:if>
+	
+		
+			<c:if test="${param.startPage eq startPage}">
+				<a href="${action}?page=${param.page-1}">[이전페이지]</a>
+			</c:if>
+					
 			
-			<c:forEach begin="1" end="${end}" step="1" var="index">
-				
+			<c:forEach begin="1" end="${end}" step="1" var="index">							
 			<c:choose>
 					<c:when test="${param.page==index}">${index}
-       				 </c:when>
-       				 
+       		</c:when>    				 
+
 					<c:otherwise>
 						<a href="${action}?page=${index}&countList=5">${index}</a>
-					</c:otherwise>
-					
+					</c:otherwise>					
 			</c:choose>
 			</c:forEach>
-			
-				<c:if test="${param.page}+1">
-				<a href="${action}?page=${param.page}+1&countList=5">[다음페이지]</a>
+						
+						
+				<c:if test="${param.endPage eq  endPage}">
+				<a href="${action}?page=${param.page+1}">[다음페이지]</a>
 				</c:if>
+				
+				
+						<c:if test="${param.endPage eq  endPage}">
+				<a href="${action}?page=${param.page+1}">[마지막]</a>
+				</c:if>
+				
+				
 			</div>
 		</td>
 	</tr>
@@ -121,6 +134,16 @@
 			<form name="search" action="/board/lst.do" method="get">
 
 
+<!-- 				<input type="radio" name="noticeYn" value="YN">			 -->
+<%-- 				<c:if test="${param.search eq 'YN'}">checked</c:if> 공지+일반글 <br> --%>
+				
+<!-- 				<input type="radio" name="noticeYn" value="Y" >				 -->
+<%-- 				<c:if test="${ param.search eq 'Y'}">checked</c:if> 공지글<br> --%>
+				
+<!-- 				<input type="radio" name="noticeYn" value="N"> -->
+<%-- 				<c:if test="${ param.search eq 'N'}">checked</c:if> 일반글<br><br>	 --%>
+
+
 				<select name="searchType" id="searchType">
 					<option value="0" >----선택----</option>
 					<option value="title"
@@ -131,6 +154,7 @@
 						<c:if test="${param.searchType eq 'all'}">selected </c:if>>제목+작성자</option>
 				</select> <input type="text" name="keyword" id="search" placeholder="입력하세요"
 					value="${param.keyword}" /> <input type="submit" value="검색" />
+							
 			</form></td>
 
 
@@ -146,6 +170,8 @@
 				
 				<input type="radio" name="noticeYn" value="N">
 				<c:if test="${ param.search eq 'N'}">checked</c:if> 일반글
+				
+				
 				 <input type="submit" value="조회" /><br>
 			<br>
 		</form>
@@ -156,7 +182,24 @@
 </tr>
 
 
+<tr>
+	<table border="5" summary ="연습">
+	<h4>------------연습------------</h4>
+	
+<!--  0부터 3까지 네 개의 값을 출력 -->
+<c:forEach var="i" begin="0" end="3">
+    <p><c:out value="${i}" /></p>
+</c:forEach>
+	
+	
+<!-- 	<h4>------------연습2------------</h4> -->
+<%-- 	<c:forEach var="i" begin="0" end="3" step="2"> --%>
 
+<%--     <p><c:out value="${i}" /></p> --%>
+
+<%-- </c:forEach> --%>
+	</table>
+</tr>
 
 <%-- 		<input type="radio" name="noticeYn" value="YN"   <c:if test="${param.search eq 'YN'}">checked</c:if>/>공지+일반글 --%>
 <%-- 		<input type="radio" name="noticeYn" value="Y" <c:if test="${ param.search eq 'Y'}">checked</c:if> />공지글 --%>

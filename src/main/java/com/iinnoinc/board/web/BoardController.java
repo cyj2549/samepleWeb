@@ -25,11 +25,8 @@ public class BoardController {
 		
         int totalCount= boardService.totalCount(_boardVO); //총 게시물 수 
 		_model.addAttribute("totalCount",totalCount);
-		
-		
-		
-	//	_model.addAttribute ("totalcountPage" ,(int)Math.ceil((double)totalCount/_boardVO.getCountList()));
 	
+		
 		_model.addAttribute("end", Math.ceil((double)totalCount / _boardVO.getCountList()));
 		
 		System.out.println("===============end=============");
@@ -37,24 +34,20 @@ public class BoardController {
 		System.out.println(Math.ceil( (double)totalCount / _boardVO.getCountList()));
 		//Math.ceil 올림 함수
 		
-		
-		
+				
 		List<BoardVO> boardLst = boardService.boardLst(_boardVO);
 		_model.addAttribute("boardLst", boardLst);
 		// System.out.println("board" + _boardVO);
 		// System.out.println(_boardVO.getCdKey());
-
-		System.out.println("=====검색 기능=====");
-		System.out.println(_boardVO.getSearchType());
-		System.out.println(_boardVO.getKeyword());
-		System.out.println(_boardVO.toSting());
+		
+//		System.out.println("=====검색 기능=====");
+//		System.out.println(_boardVO.getSearchType());
+//		System.out.println(_boardVO.getKeyword());
+//		System.out.println(_boardVO.toSting());
 
 		return "board.lst";
 				
-//		return "board/lst.do?page=1&countList=10";
-//		return "redirect:/board/lst.do?page=" + _boardVO.getPage() + "&countList=" _boardVO.getCountList();
-//		return "/board/lst.do?page=" + _boardVO.getPage() + "&countList=" _boardVO.getCountList();
-//		return "redirect:/board/lst.do?page=" + _boardVO.getPage();
+
 		
 	}
 
